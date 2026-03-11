@@ -5,6 +5,8 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
+import kotlin.test.assertTrue
+import kotlin.test.assertFalse
 
 class GameResultServiceTests {
 
@@ -38,6 +40,7 @@ class GameResultServiceTests {
         val gameResult = GameResult(1, "player1", 17, 15.3)
         service.addGameResult(gameResult)
 
+        // Die Service-Klasse vergibt die ID automatisch (beginnend bei 1)
         val res = service.getGameResult(1)
 
         assertEquals(gameResult, res)
@@ -72,4 +75,34 @@ class GameResultServiceTests {
         assertEquals(2, res[1].id)
     }
 
+    // --- NEUE TESTS FÜR 100% COVERAGE ---
+
+    @Test
+    fun test_deleteGameResult_existingId_removesElement() {
+        val gameResult = GameResult(0, "player1", 17, 15.3)
+        service.addGameResult(gameResult) // Bekommt ID 1
+
+        // Aktion: Element löschen
+        val wasRemoved = service.deleteGameResult(1)
+
+        // Verifizieren: removeIf gibt true zurück, wenn etwas gelöscht wurde
+        assertTrue(wasRemoved)
+        // Verifizieren: Die Liste ist jetzt leer
+        assertEquals(0, service.getGameResults().size)
+        assertNull(service.getGameResult(1))
+    }
+
+    @Test
+    fun test_deleteGameResult_nonexistentId_doesNothing() {
+        val gameResult = GameResult(0, "player1", 17, 15.3)
+        service.addGameResult(gameResult) // Bekommt ID 1
+
+        // Aktion: Nicht existierende ID löschen
+        val wasRemoved = service.deleteGameResult(99)
+
+        // Verifizieren: removeIf gibt false zurück, wenn nichts gefunden wurde
+        assertFalse(wasRemoved)
+        // Verifizieren: Das ursprüngliche Element ist immer noch da
+        assertEquals(1, service.getGameResults().size)
+    }
 }

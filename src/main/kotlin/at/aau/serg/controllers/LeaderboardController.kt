@@ -33,7 +33,7 @@ class LeaderboardController(
             return ResponseEntity.badRequest().build()
         }
 
-        //Wenn der Rang passt: liste berechnen
+        //Wenn der Rang passt: Liste berechnen
         val index = rank - 1
         val startIndex = max(0, index - 3)
         val endIndex = min(sortedResults.size, index + 4) // +4, da endIndex bei subList exklusiv ist

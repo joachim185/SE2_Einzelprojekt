@@ -22,7 +22,7 @@ class LeaderboardControllerTests {
         controller = LeaderboardController(mockedService)
     }
 
-    // --- 1. Tests für "Kein Rang" (angepasste Original-Tests) ---
+    // --- 1. Tests für "Kein Rang" ---
 
     @Test
     fun test_getLeaderboard_correctScoreSorting() {
@@ -66,7 +66,7 @@ class LeaderboardControllerTests {
         assertEquals(third, res[1])
     }
 
-    // --- 2. Tests für "Rang passt" (gültige Parameter & Sublisten) ---
+    // --- 2. Tests für "Rang passt" ---
 
     @Test
     fun test_getLeaderboard_validRank_returnsCorrectSubset() {
