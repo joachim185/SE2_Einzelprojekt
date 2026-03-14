@@ -25,7 +25,7 @@ class GameResultController(
         gameResultService.addGameResult(gameResult)
     }
 
-    @DeleteMapping("/{gameResultId}")
+    @DeleteMapping( "/{gameResultId}")
     fun deleteGameResult(@PathVariable gameResultId: Long) {
         gameResultService.deleteGameResult(gameResultId)
     }

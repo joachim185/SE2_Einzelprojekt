@@ -26,10 +26,10 @@ class GameResultControllerTests {
         val expectedResult = GameResult(1, "Player 1", 50, 10.5)
         whenever(mockedService.getGameResult(1L)).thenReturn(expectedResult)
 
-        // Aktion
+        
         val actualResult = controller.getGameResult(1L)
 
-        // Verifizieren
+        
         verify(mockedService).getGameResult(1L)
         assertEquals(expectedResult, actualResult)
     }
@@ -38,10 +38,10 @@ class GameResultControllerTests {
     fun test_getGameResult_nonexistentId_returnsNull() {
         whenever(mockedService.getGameResult(99L)).thenReturn(null)
 
-        // Aktion
+        
         val actualResult = controller.getGameResult(99L)
 
-        // Verifizieren
+        
         verify(mockedService).getGameResult(99L)
         assertNull(actualResult)
     }
@@ -54,10 +54,10 @@ class GameResultControllerTests {
         )
         whenever(mockedService.getGameResults()).thenReturn(expectedList)
 
-        // Aktion
+        
         val actualList = controller.getAllGameResults()
 
-        // Verifizieren
+        
         verify(mockedService).getGameResults()
         assertEquals(expectedList, actualList)
         assertEquals(2, actualList.size)
@@ -67,10 +67,10 @@ class GameResultControllerTests {
     fun test_addGameResult_callsService() {
         val newResult = GameResult(0, "New Player", 100, 5.0)
 
-        // Aktion
+        
         controller.addGameResult(newResult)
 
-        // Verifizieren, dass der Service mit genau diesem Objekt aufgerufen wurde
+
         verify(mockedService).addGameResult(newResult)
     }
 
@@ -78,10 +78,9 @@ class GameResultControllerTests {
     fun test_deleteGameResult_callsService() {
         val idToDelete = 5L
 
-        // Aktion
+        
         controller.deleteGameResult(idToDelete)
 
-        // Verifizieren, dass der Service mit genau dieser ID aufgerufen wurde
         verify(mockedService).deleteGameResult(idToDelete)
     }
 }

@@ -22,6 +22,7 @@ class GameResultServiceTests {
         val result = service.getGameResults()
 
         assertEquals(emptyList<GameResult>(), result)
+
     }
 
     @Test
@@ -75,19 +76,17 @@ class GameResultServiceTests {
         assertEquals(2, res[1].id)
     }
 
-    // --- NEUE TESTS FÜR 100% COVERAGE ---
-
     @Test
     fun test_deleteGameResult_existingId_removesElement() {
         val gameResult = GameResult(0, "player1", 17, 15.3)
         service.addGameResult(gameResult) // Bekommt ID 1
 
-        // Aktion: Element löschen
+        //Element löschen
         val wasRemoved = service.deleteGameResult(1)
 
-        // Verifizieren: removeIf gibt true zurück, wenn etwas gelöscht wurde
+        //removeIf gibt true zurück, wenn etwas gelöscht wurde
         assertTrue(wasRemoved)
-        // Verifizieren: Die Liste ist jetzt leer
+        // checken ob Liste jetzt leer ist
         assertEquals(0, service.getGameResults().size)
         assertNull(service.getGameResult(1))
     }
@@ -97,12 +96,12 @@ class GameResultServiceTests {
         val gameResult = GameResult(0, "player1", 17, 15.3)
         service.addGameResult(gameResult) // Bekommt ID 1
 
-        // Aktion: Nicht existierende ID löschen
+        //Nicht existierende ID löschen
         val wasRemoved = service.deleteGameResult(99)
 
-        // Verifizieren: removeIf gibt false zurück, wenn nichts gefunden wurde
+        //removeIf gibt false zurück, wenn nichts gefunden wurde
         assertFalse(wasRemoved)
-        // Verifizieren: Das ursprüngliche Element ist immer noch da
+        // checken ob das Element noch da ist
         assertEquals(1, service.getGameResults().size)
     }
 }

@@ -22,7 +22,7 @@ class LeaderboardControllerTests {
         controller = LeaderboardController(mockedService)
     }
 
-    // --- 1. Tests für "Kein Rang" ---
+
 
     @Test
     fun test_getLeaderboard_correctScoreSorting() {
@@ -66,17 +66,16 @@ class LeaderboardControllerTests {
         assertEquals(third, res[1])
     }
 
-    // --- 2. Tests für "Rang passt" ---
 
     @Test
     fun test_getLeaderboard_validRank_returnsCorrectSubset() {
-        // Mock-Daten: 10 Spieler generieren, absteigend sortiert (Score 99 bis 90)
+        //10 Spieler generieren, absteigend sortiert (Score 99 bis 90)
         val results = (1..10).map {
             GameResult(it.toLong(), "Player $it", 100 - it, it.toDouble())
         }
         whenever(mockedService.getGameResults()).thenReturn(results)
 
-        // Abfrage für Platz 5. Erwartet: Plätze 2, 3, 4, [5], 6, 7, 8 (Insgesamt 7 Elemente)
+        // Abfrage für Platz 5. Erwartet: Plätze 2, 3, 4, 5(angefragter Spieler), 6, 7, 8
         val response = controller.getLeaderboard(5)
 
         assertEquals(HttpStatus.OK, response.statusCode)
@@ -95,7 +94,7 @@ class LeaderboardControllerTests {
         }
         whenever(mockedService.getGameResults()).thenReturn(results)
 
-        // Abfrage für Platz 1 (Randfall: Keine oberen Nachbarn existieren)
+        // Keine oberen Nachbarn existieren
         val response = controller.getLeaderboard(1)
 
         assertEquals(HttpStatus.OK, response.statusCode)
@@ -106,14 +105,14 @@ class LeaderboardControllerTests {
         assertEquals("Player 4", res[3].playerName)
     }
 
-    // --- 3. Tests für "Falscher Rang" (Fehlerfälle -> HTTP 400) ---
+
 
     @Test
     fun test_getLeaderboard_invalidRankTooSmall_returnsBadRequest() {
         val results = listOf(GameResult(1, "p1", 10, 5.0))
         whenever(mockedService.getGameResults()).thenReturn(results)
 
-        // Ränge <= 0 sind fachlich ungültig
+        // Ränge <= 0 sind ungültig
         val responseZero = controller.getLeaderboard(0)
         val responseNegative = controller.getLeaderboard(-1)
 
